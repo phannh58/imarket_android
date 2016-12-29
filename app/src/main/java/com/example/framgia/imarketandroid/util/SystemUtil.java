@@ -81,6 +81,8 @@ public class SystemUtil {
                     lineEndIndex = tv.getLayout().getLineEnd(tv.getLayout().getLineCount() - 1);
                 StringBuilder text = new StringBuilder();
                 String threeDots = context.getString(R.string.three_dots);
+                if ((viewMore && (lineEndIndex - threeDots.length() <= 0)) || !viewMore && lineEndIndex <= 0)
+                    return;
                 if (viewMore)
                     text.append(tv.getText().subSequence(0,
                             lineEndIndex - threeDots.length()).toString() + threeDots);
@@ -90,37 +92,37 @@ public class SystemUtil {
                 tv.setText(text);
                 tv.setMovementMethod(LinkMovementMethod.getInstance());
                 tv.setText(addClickablePartTextViewResizable(context,
-                                Html.fromHtml(tv.getText().toString()), tv, expandText, viewMore),
+                        Html.fromHtml(tv.getText().toString()), tv, expandText, viewMore),
                         TextView.BufferType.SPANNABLE);
             }
         });
     }
 
     private static SpannableStringBuilder addClickablePartTextViewResizable(final Context context,
-                                               final Spanned strSpanned, final TextView tv,
-                                               final String spanableText, final boolean viewMore) {
+                                                                            final Spanned strSpanned, final TextView tv,
+                                                                            final String spanableText, final boolean viewMore) {
         String str = strSpanned.toString();
         SpannableStringBuilder ssb = new SpannableStringBuilder(strSpanned);
         if (str.contains(spanableText)) {
             ssb.setSpan(new ClickableSpan() {
-                @Override
-                public void onClick(View widget) {
-                    tv.setLayoutParams(tv.getLayoutParams());
-                    tv.setText(tv.getTag().toString(), TextView.BufferType.SPANNABLE);
-                    tv.invalidate();
-                    if (viewMore)
-                        makeTextViewResizable(context, tv, -1,
-                                context.getString(R.string.view_less),
-                                false);
-                    else
-                        makeTextViewResizable(context, tv,
-                                Constants.MAX_LINE_SPAN_TEXT, context.getString(R.string.view_more),
-                                true);
-                }
-            },
-            str.indexOf(spanableText),
-            str.indexOf(spanableText) + spanableText.length(),
-            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            @Override
+                            public void onClick(View widget) {
+                                tv.setLayoutParams(tv.getLayoutParams());
+                                tv.setText(tv.getTag().toString(), TextView.BufferType.SPANNABLE);
+                                tv.invalidate();
+                                if (viewMore)
+                                    makeTextViewResizable(context, tv, -1,
+                                            context.getString(R.string.view_less),
+                                            false);
+                                else
+                                    makeTextViewResizable(context, tv,
+                                            Constants.MAX_LINE_SPAN_TEXT, context.getString(R.string.view_more),
+                                            true);
+                            }
+                        },
+                    str.indexOf(spanableText),
+                    str.indexOf(spanableText) + spanableText.length(),
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
             ssb.setSpan(new ForegroundColorSpan(Color.BLUE),
                     str.indexOf(spanableText),

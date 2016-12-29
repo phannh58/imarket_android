@@ -1,10 +1,6 @@
 package com.example.framgia.imarketandroid.data.model;
 
-import java.lang.reflect.Field;
-import java.util.jar.Attributes;
-
 import io.realm.DynamicRealm;
-import io.realm.DynamicRealmObject;
 import io.realm.FieldAttribute;
 import io.realm.RealmMigration;
 import io.realm.RealmObjectSchema;
@@ -19,6 +15,7 @@ public class Migration implements RealmMigration {
     private final int MIGRATION_VERSION_2 = 2;
     private final int MIGRATION_VERSION_3 = 3;
     private final int MIGRATION_VERSION_4 = 4;
+    private final int MIGRATION_VERSION_5 = 5;
     private final String CATEGORY_TABLE_NAME = "Category";
     private final String COMMERCE_TABLE_NAME = "CommerceCanter";
     private final String FIELD_ID = "mId";
@@ -76,10 +73,10 @@ public class Migration implements RealmMigration {
         // Migrate from version 1 to version 2
         if (oldVersion == MIGRATION_VERSION_1) {
             RealmObjectSchema CommerceSchema = schema.create(COMMERCE_TABLE_NAME)
-                .addField(FIELD_ID, Integer.class, FieldAttribute.REQUIRED)
-                .addField(FIELD_NAME, String.class, FieldAttribute.REQUIRED)
-                .addField(FIELD_ADDRESS, String.class, FieldAttribute.REQUIRED)
-                .addField(FIELD_IMG, String.class, FieldAttribute.REQUIRED);
+                    .addField(FIELD_ID, Integer.class, FieldAttribute.REQUIRED)
+                    .addField(FIELD_NAME, String.class, FieldAttribute.REQUIRED)
+                    .addField(FIELD_ADDRESS, String.class, FieldAttribute.REQUIRED)
+                    .addField(FIELD_IMG, String.class, FieldAttribute.REQUIRED);
             CommerceSchema.setNullable(FIELD_NAME, true);
             CommerceSchema.setNullable(FIELD_ADDRESS, true);
             CommerceSchema.setNullable(FIELD_IMG, true);
@@ -106,14 +103,18 @@ public class Migration implements RealmMigration {
             RealmObjectSchema CommerceSchema = schema.get(COMMERCE_TABLE_NAME);
             CommerceSchema.addField(FIELD_LAT, Double.class, FieldAttribute.REQUIRED);
             CommerceSchema.addField(FIELD_LNG, Double.class, FieldAttribute.REQUIRED);
-//            CommerceSchema.setNullable(FIELD_LAT, true);
-//            CommerceSchema.setNullable(FIELD_LNG, true);
             oldVersion++;
         }
         // Migrate from version 4 to version 5
         if (oldVersion == MIGRATION_VERSION_4) {
             RealmObjectSchema CommerceSchema = schema.get(COMMERCE_TABLE_NAME);
             CommerceSchema.addField(FIELD_DISTANCE, Float.class, FieldAttribute.REQUIRED);
+            oldVersion++;
+        }
+
+        if (oldVersion == MIGRATION_VERSION_5) {
+            RealmObjectSchema categorySchema = schema.get(CATEGORY_TABLE_NAME);
+            categorySchema.addPrimaryKey(FIELD_ID);
             oldVersion++;
         }
     }
