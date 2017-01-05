@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1048975559969",
+    "firebase_url": "https://framgia-imarketv1.firebaseio.com",
+    "project_id": "framgia-imarketv1",
+    "storage_bucket": "framgia-imarketv1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1048975559969:android:7195cf0c513573f6",
+        "android_client_info": {
+          "package_name": "com.example.framgia.imarketandroid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1048975559969-0g2dkhmcpcs79o85tfd5095cuka0suki.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.framgia.imarketandroid",
+            "certificate_hash": "8371639CACE7EE2EF30EDCDC6929C1C36FE927FB"
+          }
+        },
+        {
+          "client_id": "1048975559969-hk63k4p8u4kr5nt6u3tanusfvuitov5g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCzTx0VmTKDafht1MKQK8YYVgp5XDZZFgA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1048975559969-hk63k4p8u4kr5nt6u3tanusfvuitov5g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

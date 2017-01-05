@@ -203,4 +203,13 @@ public class Constants {
     public class DateTime {
         public static final String FORMAT_DATE = "yyyy-MM-dd";
     }
+
+    public static class Notification{
+        public static final String START_EVENT="start_event";
+        public static final String FINISH_EVENT="finish_event";
+        public static final String CONTENT_EVENT="content";
+        public static final String STORE_ID_EVENT="store_id";
+        public static final int  REQUEST_CODE_EVENT=1;
+        public static final int  ID_NOTIFICATION=2;
+    }
 }
