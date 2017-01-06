@@ -99,6 +99,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/signup_confirm_password"
                     android:inputType="textPassword"/>
+                <requestFocus/>
             </android.support.design.widget.TextInputLayout>
 
             <Button

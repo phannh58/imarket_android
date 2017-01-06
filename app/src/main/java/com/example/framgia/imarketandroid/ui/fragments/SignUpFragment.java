@@ -27,7 +27,10 @@ import com.example.framgia.imarketandroid.util.SharedPreferencesUtil;
  */
 public class SignUpFragment extends android.support.v4.app.Fragment {
     private final int MIN_PASS = 6;
-    private final int MIN_PHONE = 10;
+    private final int MIN_PHONE_09 = 10;
+    private final int MIN_PHONE_01 = 11;
+    private final String HEAD_NUMBER_01 = "01";
+    private final String HEAD_NUMBER_09 = "09";
     private View mView;
     private TextInputLayout mInputFullName, mInputPassword, mInputConfirmPass, mInputmail;
     private EditText mEditFullName, mEditMail, mEditPassword, mEditPasswordConfirm;
@@ -160,8 +163,28 @@ public class SignUpFragment extends android.support.v4.app.Fragment {
             mInputConfirmPass.setErrorEnabled(false);
         }
         String phonenumber = mEditPhoneNumber.getText().toString().trim();
-        if (phonenumber.length() < MIN_PHONE) {
+        String dauCach = " ";
+        boolean checkDauCach = phonenumber.contains(dauCach);
+        if (checkDauCach) {
             mInputPhoneNumber.setError(getString(R.string.sai_sdt));
+            Flog.toast(getContext(), getString(R.string.sai_sdt));
+            requestFocus(mInputPhoneNumber);
+            return false;
+        }
+        String soDau = mEditPhoneNumber.getText().toString().substring(0,2);
+        if (soDau.equals(HEAD_NUMBER_09) && phonenumber.length() != MIN_PHONE_09) {
+            mInputPhoneNumber.setError(getString(R.string.sai_sdt));
+            Flog.toast(getContext(), getString(R.string.sai_sdt));
+            requestFocus(mInputPhoneNumber);
+            return false;
+        } else if (soDau.equals(HEAD_NUMBER_01) && phonenumber.length() != MIN_PHONE_01) {
+            mInputPhoneNumber.setError(getString(R.string.sai_sdt));
+            Flog.toast(getContext(), getString(R.string.sai_sdt));
+            requestFocus(mInputPhoneNumber);
+            return false;
+        } else if (!soDau.equals(HEAD_NUMBER_01) && !soDau.equals(HEAD_NUMBER_09)) {
+            mInputPhoneNumber.setError(getString(R.string.sai_sdt));
+            Flog.toast(getContext(), getString(R.string.sai_sdt));
             requestFocus(mInputPhoneNumber);
             return false;
         }

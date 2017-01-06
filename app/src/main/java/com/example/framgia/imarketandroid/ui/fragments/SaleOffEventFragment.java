@@ -18,6 +18,7 @@ import com.example.framgia.imarketandroid.data.model.ImageEvent2;
 import com.example.framgia.imarketandroid.data.model.ItemProduct;
 import com.example.framgia.imarketandroid.data.model.NewEvent;
 import com.example.framgia.imarketandroid.ui.adapter.SaleOffEventAdapter;
+import com.example.framgia.imarketandroid.util.Constants;
 import com.example.framgia.imarketandroid.util.findpath.DateTimeUtil;
 import com.facebook.CallbackManager;
 
@@ -42,7 +43,7 @@ public class SaleOffEventFragment extends Fragment {
         if (events != null) {
             mEvents = events;
             for (Event event : mEvents) {
-                String time = DateTimeUtil.getTimeEvent(event.getStartTime(), event.getEndTime());
+                String time = event.getStartTime() + Constants.PATTERN_SEPARATION +event.getEndTime();
                 NewEvent newEvent = new NewEvent(event.getName(), event.getContent(), time);
                 mList.add(0, newEvent);
             }

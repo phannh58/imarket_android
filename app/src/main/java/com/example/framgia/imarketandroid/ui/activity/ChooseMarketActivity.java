@@ -206,11 +206,30 @@ public class ChooseMarketActivity extends AppCompatActivity implements
         mRecyclerDrawer.setLayoutManager(linearLayoutManager);
         mRecyclerDrawer.setAdapter(mHistoryTimeAdapter);
         getRecycleFavorite();
+        mDrawerLayout.setDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                KeyboadUtil.hideKeyboard(ChooseMarketActivity.this);
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                KeyboadUtil.showKeyboard(ChooseMarketActivity.this, mTextViewSearchInput);
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+            }
+        });
     }
 
     private void supportActionBar() {
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
     }
 
     @Override
