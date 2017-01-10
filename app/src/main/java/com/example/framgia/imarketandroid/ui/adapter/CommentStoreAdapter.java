@@ -53,7 +53,7 @@ public class CommentStoreAdapter extends RecyclerView.Adapter<CommentStoreAdapte
                 .setImageResource(messageSuggestStore.getImageViewAvatar());
         holder.mTextViewContentMessage.setText(messageSuggestStore.getTextViewContent());
         SystemUtil.makeTextViewResizable(mContext, holder.mTextViewContentMessage,
-                Constants.MAX_LINE_SPAN_TEXT, mContext.getString(R.string.view_more), true);
+                Constants.MAX_LINE_SPAN_TEXT, mContext.getResources().getString(R.string.view_more), true);
         holder.mTextViewTitleMessage.setText(messageSuggestStore.getTextViewTitle());
         holder.mTextViewNameUser.setText(messageSuggestStore.getNameUser());
         holder.mTextViewCurDate.setText(SystemUtil.formatTimeNow(mContext,
@@ -88,7 +88,7 @@ public class CommentStoreAdapter extends RecyclerView.Adapter<CommentStoreAdapte
     }
 
     public interface OnPreviewCommentListener {
-        public void onPreviewCommentClicked();
+        void onPreviewCommentClicked();
     }
 
     public class SuggestStoreViewHolder extends RecyclerView.ViewHolder {

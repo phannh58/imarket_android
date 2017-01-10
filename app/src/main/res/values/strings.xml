@@ -321,4 +321,6 @@
     <string name="ticker">This is a ticker</string>
     <string name="share_on_facebook">Facebook</string>
     <string name="three_dots">...</string>
+    <string name="view_less">Rút gọn</string>
+    <string name="view_more">Thêm</string>
 </resources>
