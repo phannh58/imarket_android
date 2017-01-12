@@ -330,6 +330,7 @@ public class ChooseMarketActivity extends AppCompatActivity implements
                     mDataUtils.loadCommerce(ChooseMarketActivity.this, mMarkets,
                         mRecyclerMarket, mImageViewNoNetwork);
                     synChronizeData();
+                    mCheckBoxNearMarket.setChecked(false);
                     break;
                 default:
                     break;

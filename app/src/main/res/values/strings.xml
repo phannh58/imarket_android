@@ -323,4 +323,7 @@
     <string name="three_dots">...</string>
     <string name="view_less">Rút gọn</string>
     <string name="view_more">Thêm</string>
+    <string name="sai_email">Email không tồn tại.</string>
+    <string name="sai_username">Họ tên dài qúa 30 kí tự.</string>
+    <string name="da_dang_nhap">Đã thực hiện đăng nhập.</string>
 </resources>

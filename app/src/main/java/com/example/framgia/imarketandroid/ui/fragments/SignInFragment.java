@@ -61,8 +61,8 @@ import java.util.Arrays;
  * Created by toannguyen201194 on 22/07/2016.
  */
 public class SignInFragment extends android.support.v4.app.Fragment implements
-    View.OnClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient
-    .OnConnectionFailedListener {
+        View.OnClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient
+        .OnConnectionFailedListener {
     private static final String SHOW = "show";
     private static final int RC_SIGN_IN = 0;
     private static final int PROFILE_PIC_SIZE = 400;
@@ -123,9 +123,9 @@ public class SignInFragment extends android.support.v4.app.Fragment implements
 
     public void createBuilderGoogleApi() {
         mGoogleApiClient = new GoogleApiClient.Builder(getContext())
-            .addConnectionCallbacks(this)
-            .addOnConnectionFailedListener(this).addApi(Plus.API)
-            .addScope(Plus.SCOPE_PLUS_LOGIN).build();
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this).addApi(Plus.API)
+                .addScope(Plus.SCOPE_PLUS_LOGIN).build();
     }
 
     private void initView() {
@@ -191,86 +191,86 @@ public class SignInFragment extends android.support.v4.app.Fragment implements
 
     public void eventClickButtonLogin() {
         if (mEditUsername.getText().toString().isEmpty() || mEditPassword.getText().toString()
-            .trim().isEmpty()) {
+                .trim().isEmpty()) {
             Flog.toast(getContext(), R.string.notification_user_pass);
         } else {
             final Session session = new Session(mEditUsername.getText().toString(), mEditPassword
-                .getText().toString());
+                    .getText().toString());
             mProgressDialog = new ProgressDialog(getActivity());
             mProgressDialog.setMessage(getString(R.string.progressdialog));
             mProgressDialog.setProgress(ProgressDialog.STYLE_SPINNER);
             mProgressDialog.show();
             HttpRequest.getInstance(getActivity().getBaseContext()).login(session);
             HttpRequest.getInstance(getActivity().getBaseContext())
-                .setOnLoadDataListener(new HttpRequest.OnLoadDataListener() {
-                    @Override
-                    public void onLoadDataSuccess(Object object) {
-                        UserModel userModel = (UserModel) object;
-                        mProgressDialog.dismiss();
-                        if (userModel == null) {
-                            Flog.toast(getContext(), R.string.msg_login_invaild);
-                        } else {
-                            SharedPreferencesUtil.getInstance().save(Constants.SESSION, userModel);
-                            getActivity().onBackPressed();
+                    .setOnLoadDataListener(new HttpRequest.OnLoadDataListener() {
+                        @Override
+                        public void onLoadDataSuccess(Object object) {
+                            UserModel userModel = (UserModel) object;
+                            mProgressDialog.dismiss();
+                            if (userModel == null) {
+                                Flog.toast(getContext(), R.string.msg_login_invaild);
+                            } else {
+                                SharedPreferencesUtil.getInstance().save(Constants.SESSION, userModel);
+                                getActivity().onBackPressed();
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onLoadDataFailure(String message) {
-                        mProgressDialog.dismiss();
-                        Flog.toast(getContext(), R.string.login_fail);
-                    }
-                });
+                        @Override
+                        public void onLoadDataFailure(String message) {
+                            mProgressDialog.dismiss();
+                            Flog.toast(getContext(), R.string.login_fail);
+                        }
+                    });
         }
     }
 
     public void eventClickButtonLoginFacabook() {
         LoginManager.getInstance().registerCallback(mCallbackManager,
-            new FacebookCallback<LoginResult>() {
-                @Override
-                public void onSuccess(LoginResult loginResult) {
-                    mAccessToken = loginResult.getAccessToken();
-                    GraphRequest graphRequest =
-                        GraphRequest.newMeRequest(mAccessToken,
-                            new GraphRequest.GraphJSONObjectCallback() {
-                                @Override
-                                public void onCompleted(JSONObject object, GraphResponse response) {
-                                    try {
-                                        AccessToken accessToken =
-                                            AccessToken.getCurrentAccessToken();
-                                        String name =
-                                            object.getString(Constants.LAST_NAME) + object.getString
-                                                (Constants.FIRST_NAME);
-                                        String mail = object.getString(Constants.EMAIL);
-                                        startActivity(new Intent(getActivity(),
-                                            DetailsProductActivity.class));
-                                        // TODO: 26/07/2016  post data token at here
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            });
-                    Bundle parameters = new Bundle();
-                    parameters.putString(Constants.FIELD,
-                        "" + Constants.FIRST_NAME + "," + Constants.LAST_NAME + "," +
-                            Constants.EMAIL + "");
-                    graphRequest.setParameters(parameters);
-                    graphRequest.executeAsync();
-                }
+                new FacebookCallback<LoginResult>() {
+                    @Override
+                    public void onSuccess(LoginResult loginResult) {
+                        mAccessToken = loginResult.getAccessToken();
+                        GraphRequest graphRequest =
+                                GraphRequest.newMeRequest(mAccessToken,
+                                        new GraphRequest.GraphJSONObjectCallback() {
+                                            @Override
+                                            public void onCompleted(JSONObject object, GraphResponse response) {
+                                                try {
+                                                    AccessToken accessToken =
+                                                            AccessToken.getCurrentAccessToken();
+                                                    String name =
+                                                            object.getString(Constants.LAST_NAME) + object.getString
+                                                                    (Constants.FIRST_NAME);
+                                                    String mail = object.getString(Constants.EMAIL);
+                                                    startActivity(new Intent(getActivity(),
+                                                            DetailsProductActivity.class));
+                                                    // TODO: 26/07/2016  post data token at here
+                                                } catch (JSONException e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        });
+                        Bundle parameters = new Bundle();
+                        parameters.putString(Constants.FIELD,
+                                "" + Constants.FIRST_NAME + "," + Constants.LAST_NAME + "," +
+                                        Constants.EMAIL + "");
+                        graphRequest.setParameters(parameters);
+                        graphRequest.executeAsync();
+                    }
 
-                @Override
-                public void onCancel() {
-                }
+                    @Override
+                    public void onCancel() {
+                    }
 
-                @Override
-                public void onError(FacebookException error) {
-                }
-            });
+                    @Override
+                    public void onError(FacebookException error) {
+                    }
+                });
     }
 
     private void checkReadPermission() {
         LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList(Constants
-            .PUBLIC_PROFILE, Constants.EMAIL));
+                .PUBLIC_PROFILE, Constants.EMAIL));
     }
 
     private void signInWithGplus() {
@@ -310,10 +310,20 @@ public class SignInFragment extends android.support.v4.app.Fragment implements
         try {
             if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
                 Person currentPerson = Plus.PeopleApi
-                    .getCurrentPerson(mGoogleApiClient);
+                        .getCurrentPerson(mGoogleApiClient);
                 String personName = currentPerson.getDisplayName();
                 String personPhotoUrl = currentPerson.getImage().getUrl();
                 String personGooglePlusProfile = currentPerson.getUrl();
+                if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.GET_ACCOUNTS) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return;
+                }
                 String email = Plus.AccountApi.getAccountName(mGoogleApiClient);
                 personPhotoUrl = personPhotoUrl.substring(mStartIndex,
                     personPhotoUrl.length() - mSubLetter)
