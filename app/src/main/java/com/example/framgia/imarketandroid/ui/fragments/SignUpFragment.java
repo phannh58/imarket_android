@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -188,6 +189,28 @@ public class SignUpFragment extends android.support.v4.app.Fragment {
             requestFocus(mInputPhoneNumber);
             return false;
         }
+
+        String email = mEditMail.getText().toString().trim();
+        int viTriACong = email.indexOf("@");
+        if (viTriACong == 0) {
+            mInputmail.setError(getString(R.string.sai_email));
+            Flog.toast(getContext(), getString(R.string.sai_email));
+            requestFocus(mInputmail);
+            return false;
+        }
+        if (!isValidEmail(email)) {
+            mInputmail.setError(getString(R.string.sai_email));
+            Flog.toast(getContext(), getString(R.string.sai_email));
+            requestFocus(mInputmail);
+            return false;
+        }
+        String name = mEditFullName.getText().toString().trim();
+        if (name.length() > 30) {
+            mEditFullName.setError(getString(R.string.sai_username));
+            Flog.toast(getContext(), getString(R.string.sai_username));
+            requestFocus(mInputFullName);
+            return false;
+        }
         return true;
     }
 
@@ -228,4 +251,9 @@ public class SignUpFragment extends android.support.v4.app.Fragment {
             }
         }
     }
+
+    public final static boolean isValidEmail(CharSequence target) {
+        return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
+    }
+
 }
