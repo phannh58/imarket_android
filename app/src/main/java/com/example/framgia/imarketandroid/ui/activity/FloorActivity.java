@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.hardware.Sensor;
@@ -17,6 +16,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutCompat;
@@ -37,6 +37,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -77,6 +79,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -102,24 +105,12 @@ public class FloorActivity extends AppCompatActivity implements AdapterView
     public static Point sCurrentLocation;
     public static Point sSavedLocation;
     public static String sSavedNote;
-    public static List<StoreType> sStoreTypes = new ArrayList<>();
     public static float currentDegree = FakeContainer.CAMERA_PARAMETER;
-    private final float DIS_LEVEL_FOUR = 40;
-    private final float DIS_LEVEL_THREE = 80;
-    private final float DIS_LEVEL_TWO = 120;
-    private final float DIS_LEVEL_ONE = 160;
-    private final int START_LEVEL_FOUR = 10;
-    private final int START_LEVEL_THREE = 20;
-    private final int START_LEVEL_TWO = 30;
-    private final int START_LEVEL_ONE = 40;
-    private final float ZOOM_LEVEL_THREE = 17.5f;
-    private final float ZOOM_LEVEL_TWO = 18.5f;
-    private final float ZOOM_LEVEL_ONE = 19.5f;
-    private final float LOWER_BOUNDS_ZOOM = 15;
     private GoogleMap mMap;
     private RecyclerView mRvDiagramOption;
     private RecyclerView.Adapter mAdapterDiagramOption;
     private ListView mListFloor;
+    private List<StoreType> mListStore = new ArrayList<>();
     private RecyclerView mRecyclerViewStore;
     private Button mBtnDoneLocation;
     private Dialog mDialog;
@@ -174,27 +165,17 @@ public class FloorActivity extends AppCompatActivity implements AdapterView
     private LoadDataUtils mDataUtils;
     private TextView mTextViewNameCenter;
     private CommerceCanter mCommerce;
-    private int mScaledMarkerSize = 30;
-    private float mMinZoomLevel = 0;
-    private float mMaxZoomLevel = 0;
-    private boolean mIsLoadDataDone;
-    private CustomMarkerView mGeneralCustomMarkerView;
-    private ArrayList<Marker> mMarkerList = new ArrayList<>();
-    private List<String> mListImage = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_floor);
-        Intent intent = getIntent();
-        mCommerce = (CommerceCanter) intent
-            .getSerializableExtra(Constants.COMMERCE_INTENT);
         initMap();
         hideStatusBar();
         initViews();
-    }
-
-    private void initUntilData() {
+        Intent intent = getIntent();
+        mCommerce = (CommerceCanter) intent
+            .getSerializableExtra(Constants.COMMERCE_INTENT);
         mDataUtils = new LoadDataUtils();
         mDataUtils.init(this);
         mDataUtils.loadFloor(this, mCommerce.getId());
@@ -242,12 +223,15 @@ public class FloorActivity extends AppCompatActivity implements AdapterView
             }
         });
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+//        mEdtDelete = (EditText) findViewById(R.id.edt_delete);
         initListViewFloor();
+        initRvStore();
         mSlideRightIn = AnimationUtils.loadAnimation(this, R.anim.slide_in_right);
         mSlideRightOut = AnimationUtils.loadAnimation(this, R.anim.slide_out_right);
         mSlideLeftIn = AnimationUtils.loadAnimation(this, R.anim.slide_in_left);
         mSlideLeftOut = AnimationUtils.loadAnimation(this, R.anim.slide_out_left);
         MapUntils.slideLayoutRight(mLayoutFloor, mSlideRightIn, mSlideRightOut);
+        MapUntils.slideLayoutLeft(mRecyclerViewStore, mSlideLeftOut, mSlideLeftIn);
         mRvDiagramOption = (RecyclerView) findViewById(R.id.rv_diagram_option);
         mRvDiagramOption
             .setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
@@ -290,8 +274,8 @@ public class FloorActivity extends AppCompatActivity implements AdapterView
         mRecyclerViewStore.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         mRecyclerViewStore.addItemDecoration(new LinearItemDecoration(this,
             getResources().getDimensionPixelSize(R.dimen.common_size_1)));
-        mListImage = FakeContainer.createListImage();
-        mAdapter = new ChooseStoreTypeAdapter(this, sStoreTypes);
+        mListStore = FakeContainer.initStore();
+        mAdapter = new ChooseStoreTypeAdapter(this, mListStore);
         mAdapter.setOnRecyclerItemInteractListener(this);
         mRecyclerViewStore.setAdapter(mAdapter);
     }
@@ -349,8 +333,7 @@ public class FloorActivity extends AppCompatActivity implements AdapterView
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        getZoomLevel(mMap);
-        initUntilData();
+        moveCamera();
 //        setListMarker();
 //        setListEdge();
         setCustomMarkers(0);
@@ -360,9 +343,9 @@ public class FloorActivity extends AppCompatActivity implements AdapterView
             @Override
             public boolean onMarkerClick(Marker marker) {
                 if (mCheckSwitch) {
-                    if (mCheckCurrentLocation) {
-                        mTargetLocation = RealmRemote.getObjectPointFromName(Integer.parseInt(marker
-                            .getTitle()));
+                    if (mCheckCurrentLocation == true) {
+                        mTargetLocation =
+                            RealmRemote.getObjectPointFromName(Integer.parseInt(marker.getTitle()));
                         setDrawPath();
                     } else
                         Toast.makeText(FloorActivity.this, R.string.input_current_location, Toast
@@ -478,90 +461,22 @@ public class FloorActivity extends AppCompatActivity implements AdapterView
                 .build();
         mMap.moveCamera(CameraUpdateFactory.newLatLng(mAeon));
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-        if (mListImage.size() == 0)
-            return;
         mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
-            private float mCurrentZoom = -1;
-
             @Override
             public void onCameraChange(CameraPosition cameraPosition) {
-                float changeZoomLevel = cameraPosition.zoom - mCurrentZoom;
-                if (changeZoomLevel == 0)
-                    return;
-                mCurrentZoom = cameraPosition.zoom;
                 float angle = cameraPosition.bearing;
                 mBearing = cameraPosition.bearing;
                 mAngleMap = angle - FakeContainer.CAMERA_PARAMETER;
                 mZoom = cameraPosition.zoom;
-                float diffZoomLevel = mMaxZoomLevel - LOWER_BOUNDS_ZOOM;
-
-                /*Determine value of scale marker that is suitable when zooming (in/out) maps:
-                * MaxZoomLevel = 21 and LowerBoundsZoom = 15
-                * The rate of change of marker when zooming maps that is differrent belong to the value of cameraPosition.zoom*/
-                if (mCurrentZoom > ZOOM_LEVEL_ONE) {
-                    mScaledMarkerSize = START_LEVEL_ONE +
-                        (int) ((mCurrentZoom - LOWER_BOUNDS_ZOOM) * DIS_LEVEL_ONE / diffZoomLevel);
-                } else if (mCurrentZoom > ZOOM_LEVEL_TWO) {
-                    mScaledMarkerSize = START_LEVEL_TWO +
-                        (int) ((mCurrentZoom - LOWER_BOUNDS_ZOOM) * DIS_LEVEL_TWO / diffZoomLevel);
-                } else if (mCurrentZoom > ZOOM_LEVEL_THREE) {
-                    mScaledMarkerSize = START_LEVEL_THREE +
-                        (int) ((mCurrentZoom - LOWER_BOUNDS_ZOOM) * DIS_LEVEL_THREE /
-                            diffZoomLevel);
-                } else {
-                    mScaledMarkerSize = START_LEVEL_FOUR +
-                        (int) ((mCurrentZoom - LOWER_BOUNDS_ZOOM) * DIS_LEVEL_FOUR / diffZoomLevel);
-                }
-
-                /*Resize each marker when zooming maps:*/
-                for (int i = 0; i < mNodesDisplay.size(); i++) {
-                    Point point = mNodesDisplay.get(i);
-                    updateCustomMarkerFromPoint(RealmRemote.createCustomMarkerFromPoint(point), i);
+                if (mZoom > mZoom && mCheckZoom == false) {
+                    setMarkerVisible(true);
+                    mCheckZoom = true;
+                } else if (mZoom < mZoom && mCheckZoom == true) {
+                    setMarkerVisible(false);
+                    mCheckZoom = false;
                 }
             }
         });
-    }
-
-    private void updateCustomMarkerFromPoint(CustomMarker cMarker, int index) {
-        switch (cMarker.getType()) {
-            case FakeContainer.STORE_TYPE_1:
-                setBackground(mGeneralCustomMarkerView, 1);
-                break;
-            case FakeContainer.STORE_TYPE_2:
-                setBackground(mGeneralCustomMarkerView, 2);
-                break;
-            case FakeContainer.STORE_TYPE_3:
-                setBackground(mGeneralCustomMarkerView, 3);
-                break;
-            case FakeContainer.STORE_TYPE_4:
-                setBackground(mGeneralCustomMarkerView, 4);
-                break;
-            case FakeContainer.STORE_TYPE_5:
-                setBackground(mGeneralCustomMarkerView, 5);
-                break;
-            case FakeContainer.STORE_TYPE_6:
-                setBackground(mGeneralCustomMarkerView, 6);
-                break;
-            case FakeContainer.STORE_TYPE_7:
-                setBackground(mGeneralCustomMarkerView, 7);
-                break;
-            default:
-                break;
-        }
-        Bitmap bmp = MapUntils.createBitmapFromView(this, mMarkerView);
-        if (mMarkerList.size() > 0) {
-            mMarkerList.get(index)
-                .setIcon(BitmapDescriptorFactory.fromBitmap(resizeBitmap(bmp, mScaledMarkerSize)));
-        }
-    }
-
-    private Bitmap resizeBitmap(Bitmap bmp, int scale) {
-        return Bitmap.createScaledBitmap(bmp, scale, scale, false);
-    }
-
-    private void getZoomLevel(GoogleMap googleMap) {
-        mMinZoomLevel = googleMap.getMinZoomLevel();
-        mMaxZoomLevel = googleMap.getMaxZoomLevel();
     }
 
     private void setMarkerVisible(boolean check) {
@@ -645,7 +560,7 @@ public class FloorActivity extends AppCompatActivity implements AdapterView
         }
         if (FloorActivity.sResumeValue == FLAG_CHECK_LIST_SAVE) {
             if (sSavedLocation != null && SavePointActivity.sCheckpath == 2) {
-                if (mCheckSaveLocation) {
+                if (mCheckSaveLocation == true) {
                     mCheckSaveLocation = false;
                     drawMarker(mSaveCustomarker);
                 }
@@ -658,76 +573,94 @@ public class FloorActivity extends AppCompatActivity implements AdapterView
     }
 
     private void drawMarker(CustomMarker marker) {
-        mGeneralCustomMarkerView =
-            (CustomMarkerView) mMarkerView.findViewById(R.id.custom_marker_view);
-        mGeneralCustomMarkerView.setPercentValue(0);
-        mGeneralCustomMarkerView.setTextforMarker();
+        CustomMarkerView customMarkerView;
+        customMarkerView = (CustomMarkerView) mMarkerView.findViewById(R.id.custom_marker_view);
+        customMarkerView.setPercentValue(0);
+        customMarkerView.setTextforMarker();
         mIntersectionMK.setPercentValue(0);
         mIntersectionMK.setTextforMarker();
         mSaveMK.setPercentValue(0);
         mSaveMK.setTextforMarker();
-        int type = marker.getType();
-        if (type == Constants.SAVE_POINT_TYPE) {
-            if (mCheckSaveLocation) {
-                mSaveMK
-                    .setBackgroundInt(getResources().getDrawable(R.drawable.ic_save_point));
-                LatLng newLatLng = new LatLng(marker.getLatitude(), marker.getLongitude());
-                mSaveMarker = mMap.addMarker(new MarkerOptions()
-                    .position(newLatLng)
-                    .title(marker.getName())
-                    .icon(BitmapDescriptorFactory
-                        .fromBitmap(MapUntils.createBitmapFromView(this, mSaveView)))
-                    .anchor(0.5f, 0.5f));
-                mMarkerPointHashMap.put(mSaveMarker, marker);
-            } else {
-                if (mSaveMarker != null)
-                    mSaveMarker.remove();
-            }
-        } else if (type == FakeContainer.STORE_TYPE_0) {
-            if (mCheckCurrentLocation) {
-                mIntersectionMK
-                    .setBackgroundInt(getResources().getDrawable(R.drawable.compass));
-                LatLng newLatLng = new LatLng(marker.getLatitude(), marker.getLongitude());
-                mInteraker = mMap.addMarker(new MarkerOptions()
-                    .position(newLatLng)
-                    .title(marker.getName())
-                    .icon(BitmapDescriptorFactory
-                        .fromBitmap(MapUntils.createBitmapFromView(this, mInterMarkerView)))
-                    .anchor(0.5f, 0.5f));
-            } else {
-                if (mInteraker != null)
-                    mInteraker.remove();
-            }
-        } else
-            for (int i = 1; i < sStoreTypes.size(); i++)
-                if (type == sStoreTypes.get(i).getId()) {
-                    setBackground(mGeneralCustomMarkerView, i);
-                    break;
+        switch (marker.getType()) {
+            case Constants.SAVE_POINT_TYPE:
+                if (mCheckSaveLocation == true) {
+                    mSaveMK
+                        .setBackground(getResources().getDrawable(R.drawable.ic_save_point));
+                    LatLng newLatLng = new LatLng(marker.getLatitude(), marker.getLongitude());
+                    mSaveMarker = mMap.addMarker(new MarkerOptions()
+                        .position(newLatLng)
+                        .title(marker.getName())
+                        .icon(BitmapDescriptorFactory
+                            .fromBitmap(MapUntils.createBitmapFromView(this, mSaveView)))
+                        .anchor(0.5f, 0.5f));
+                    mMarkerPointHashMap.put(mSaveMarker, marker);
+                } else {
+                    if (mSaveMarker != null)
+                        mSaveMarker.remove();
                 }
-        mGeneralCustomMarkerView.setOnClickListener(this);
+                return;
+            case FakeContainer.STORE_TYPE_0:
+                if (mCheckCurrentLocation == true) {
+                    mIntersectionMK
+                        .setBackground(getResources().getDrawable(R.drawable.compass));
+                    LatLng newLatLng = new LatLng(marker.getLatitude(), marker.getLongitude());
+                    mInteraker = mMap.addMarker(new MarkerOptions()
+                        .position(newLatLng)
+                        .title(marker.getName())
+                        .icon(BitmapDescriptorFactory
+                            .fromBitmap(MapUntils.createBitmapFromView(this, mInterMarkerView)))
+                        .anchor(0.5f, 0.5f));
+                } else {
+                    if (mInteraker != null)
+                        mInteraker.remove();
+                }
+                return;
+            case FakeContainer.STORE_TYPE_1:
+                setBackground(customMarkerView, 1);
+                break;
+            case FakeContainer.STORE_TYPE_2:
+                setBackground(customMarkerView, 2);
+                break;
+            case FakeContainer.STORE_TYPE_3:
+                setBackground(customMarkerView, 3);
+                break;
+            case FakeContainer.STORE_TYPE_4:
+                setBackground(customMarkerView, 4);
+                break;
+            case FakeContainer.STORE_TYPE_5:
+                setBackground(customMarkerView, 5);
+                break;
+            case FakeContainer.STORE_TYPE_6:
+                setBackground(customMarkerView, 6);
+                break;
+            case FakeContainer.STORE_TYPE_7:
+                setBackground(customMarkerView, 7);
+                break;
+            default:
+                break;
+        }
+        customMarkerView.setOnClickListener(this);
         LatLng newLatLng = new LatLng(marker.getLatitude(), marker.getLongitude());
         final Marker currentMarker = mMap.addMarker(new MarkerOptions()
             .position(newLatLng)
             .title(marker.getName())
             .icon(BitmapDescriptorFactory
-                .fromBitmap(resizeBitmap(MapUntils.createBitmapFromView(this, mMarkerView),
-                    mScaledMarkerSize)))
+                .fromBitmap(MapUntils.createBitmapFromView(this, mMarkerView)))
             .anchor(0.5f, 0.5f));
         mMarkerPointHashMap.put(currentMarker, marker);
-        mMarkerList.add(currentMarker);
     }
 
     private void setBackground(CustomMarkerView customMarkerView, int position) {
-        if (mListImage.size() == 0)
-            mListImage = FakeContainer.createListImage();
-        if (customMarkerView == null)
-            return;
         customMarkerView.setVisible(true);
-        if (!mCheckCurrentLocation)
-            customMarkerView.setBackground(mListImage.get(position), this);
-        else {
-            customMarkerView.setBackground(mListImage.get(position), this);
-        }
+        if (mCheckCurrentLocation == false)
+            customMarkerView.setBackground(
+                ResourcesCompat.getDrawable(getResources(), Constants.LIST_AVATAR_STORE[position],
+                    null));
+        else
+            customMarkerView.setBackground(
+                ResourcesCompat
+                    .getDrawable(getResources(), Constants.LIST_CURRENT_AVATAR_STORE[position],
+                        null));
     }
 
     @Override
@@ -746,7 +679,7 @@ public class FloorActivity extends AppCompatActivity implements AdapterView
                 break;
             case R.id.done_location:
                 if (mEdtLocation.getText().length() > 0) {
-                    if (mCheckCurrentLocation) {
+                    if (mCheckCurrentLocation == true) {
                         mCheckCurrentLocation = false;
                         drawMarker(mLocationCustomMarker);
                     }
@@ -924,7 +857,7 @@ public class FloorActivity extends AppCompatActivity implements AdapterView
         if (requestCode == 20)
             if (resultCode == RESULT_OK) {
                 String content = data.getStringExtra("SCAN_RESULT");
-                if (mCheckCurrentLocation) {
+                if (mCheckCurrentLocation == true) {
                     mCheckCurrentLocation = false;
                     drawMarker(mLocationCustomMarker);
                 }
@@ -957,18 +890,8 @@ public class FloorActivity extends AppCompatActivity implements AdapterView
     }
 
     @Override
-    public void onFinish(int result) {
-        mTextViewNameCenter.setText(mCommerce.getName());
-        switch (result) {
-            case Constants.ResultFinishLoadData.LOAD_FLOOR_FINISH:
-                mDataUtils.loadStoreType(this, 1);
-                moveCamera();
-                break;
-            case Constants.ResultFinishLoadData.LOAD_STORETYPE_FINISH:
-                initRvStore();
-                MapUntils.slideLayoutLeft(mRecyclerViewStore, mSlideLeftOut, mSlideLeftIn);
-                break;
-        }
+    public void onFinish(int flag) {
+        if (flag > -1) mTextViewNameCenter.setText(mCommerce.getName());
     }
 
     public class MarkerInfoAdapter implements GoogleMap.InfoWindowAdapter {
@@ -988,31 +911,31 @@ public class FloorActivity extends AppCompatActivity implements AdapterView
                 switch (customMarker.getType()) {
                     case FakeContainer.STORE_TYPE_1:
                         mTextStoreName =
-                            Constants.DataList.LIST_NAME_STORE[1];
+                            Constants.LIST_NAME_STORE[1];
                         break;
                     case FakeContainer.STORE_TYPE_2:
                         mTextStoreName =
-                            Constants.DataList.LIST_NAME_STORE[2];
+                            Constants.LIST_NAME_STORE[2];
                         break;
                     case FakeContainer.STORE_TYPE_3:
                         mTextStoreName =
-                            Constants.DataList.LIST_NAME_STORE[3];
+                            Constants.LIST_NAME_STORE[3];
                         break;
                     case FakeContainer.STORE_TYPE_4:
                         mTextStoreName =
-                            Constants.DataList.LIST_NAME_STORE[4];
+                            Constants.LIST_NAME_STORE[4];
                         break;
                     case FakeContainer.STORE_TYPE_5:
                         mTextStoreName =
-                            Constants.DataList.LIST_NAME_STORE[5];
+                            Constants.LIST_NAME_STORE[5];
                         break;
                     case FakeContainer.STORE_TYPE_6:
                         mTextStoreName =
-                            Constants.DataList.LIST_NAME_STORE[6];
+                            Constants.LIST_NAME_STORE[6];
                         break;
                     case FakeContainer.STORE_TYPE_7:
                         mTextStoreName =
-                            Constants.DataList.LIST_NAME_STORE[7];
+                            Constants.LIST_NAME_STORE[7];
                         break;
                     case Constants.SAVE_POINT_TYPE:
                         LinearLayout layoutHire = (LinearLayout) v.findViewById(R.id.layout_hire);
@@ -1027,7 +950,7 @@ public class FloorActivity extends AppCompatActivity implements AdapterView
                 LinearLayout layoutSale = (LinearLayout) v.findViewById(R.id.layout_sale);
                 ((ViewGroup) v).removeView(layoutHire);
                 ((ViewGroup) v).removeView(layoutSale);
-                mTextStoreName = Constants.DataList.LIST_NAME_STORE[0] + " " + marker.getTitle();
+                mTextStoreName = Constants.LIST_NAME_STORE[0] + " " + marker.getTitle();
             }
             textView.setText(mTextStoreName);
             textView.setPaintFlags(textView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);

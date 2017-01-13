@@ -66,6 +66,7 @@ public class SavePointActivity extends AppCompatActivity implements View.OnClick
     private int mFlagSavePosition = 4;
     private int mFlagSpinner = 5;
     private int mFlagCheckListSave = 7;
+    private int mNumberLetter = 1;
     private final int MAX_DISTANCE = 25;
     private ArrayAdapter<String> mAdapter;
     private RealmList<Point> listStore;
@@ -107,9 +108,9 @@ public class SavePointActivity extends AppCompatActivity implements View.OnClick
                     mIntentPoint.getLng()), point);
                 if (distance < MAX_DISTANCE) {
                     listPoint.add(point);
-                    StoreType store = new StoreType(0, Constants.DataList.LIST_NAME_STORE[point
+                    StoreType store = new StoreType(0, Constants.LIST_NAME_STORE[point
                         .getType()] + ": " + mformat.format(distance) + Constants.METTERS,
-                        FloorActivity.sStoreTypes.get(point.getType() - 1).getAvatar(), 1);
+                        Constants.LIST_AVATAR_STORE[point.getType()], 0);
                     mListStore.add(store);
                 }
             }
@@ -137,9 +138,9 @@ public class SavePointActivity extends AppCompatActivity implements View.OnClick
 
     private void setAutoCompleteTextView() {
         mEdtSavePoint = (AutoCompleteTextView) findViewById(R.id.edt_save_point);
-        mEdtSavePoint.setThreshold(1);
+        mEdtSavePoint.setThreshold(mNumberLetter);
         mAdapter = new ArrayAdapter<String>(this, android.R.layout
-            .select_dialog_item, Constants.DataList.LIST_NAME_SUGGEST);
+            .select_dialog_item, Constants.LIST_NAME_SUGGEST);
         mEdtSavePoint.setAdapter(mAdapter);
     }
 

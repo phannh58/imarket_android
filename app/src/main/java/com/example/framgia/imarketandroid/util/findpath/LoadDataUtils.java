@@ -101,37 +101,6 @@ public class LoadDataUtils {
             });
     }
 
-    public void loadStoreType(final Context context, final int idCommerce) {
-        init(context);
-        HttpRequest.getInstance(context).loadListStoreType(idCommerce);
-        HttpRequest.getInstance(context)
-            .setOnLoadDataListener(new HttpRequest.OnLoadDataListener() {
-                @Override
-                public void onLoadDataSuccess(Object object) {
-                    if (!(object instanceof StoreTypeList)) return;
-                    StoreTypeList types = (StoreTypeList) object;
-                    if (types == null) Flog.toast(mContext, R.string.not_data_in_object);
-                    else {
-                        for (int i = 0; i < types.getListStoreType().size(); i++) {
-                            StoreType type = types.getListStoreType().get(i);
-                            FloorActivity.sStoreTypes.add(type);
-                        }
-                        mFinishLoadDataListener
-                            .onFinish(Constants.ResultFinishLoadData.LOAD_STORETYPE_FINISH);
-                    }
-                }
-
-                @Override
-                public void onLoadDataFailure(String message) {
-                    mProgressDialog.dismiss();
-                    if (!InternetUtil.isInternetConnected(context)) {
-                        Flog.toast(context, R.string.no_internet);
-                        processBroadcastFloor(idCommerce);
-                    }
-                }
-            });
-    }
-
     public void loadCommerce(final Context context, final List<CommerceCanter> list,
                              final View viewRecycle, final View viewImage) {
         init(context);
