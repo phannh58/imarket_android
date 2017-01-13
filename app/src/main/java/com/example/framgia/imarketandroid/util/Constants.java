@@ -133,12 +133,27 @@ public class Constants {
         public static final String EVENT_ID_INTENT = "event id";
     }
 
+    public static final String[] LIST_NAME_SUGGEST = {"ăn ngon", "để xe", "đợi người", "xem phim",
+        "cảnh đẹp"};
+
     public class ResultFinishLoadData {
         public static final int LOAD_DATA_FINISH = 1;
         public static final int LOAD_EVENT_FINISH = 2;
         public static final int LOAD_FLOOR_FINISH = 3;
         public static final int LOAD_STORETYPE_FINISH = 4;
     }
+
+    public static final int[] LIST_AVATAR_STORE =
+        {R.drawable.curret_location_icon, R.drawable.food_avatar, R.drawable.fashion, R
+            .drawable.book_shop, R.drawable.cosmetic,
+            R.drawable.stage, R.drawable.game_icon, R
+            .drawable.smartphone};
+    public static final int[] LIST_CURRENT_AVATAR_STORE =
+        {R.drawable.curret_location_icon, R.drawable.current_restaurent, R.drawable
+            .current_fashion, R.drawable.current_book_shop, R.drawable
+            .current_cosmetic,
+            R.drawable.current_stage, R.drawable.current_game_icon, R
+            .drawable.current_smartphone};
 
     public class ParamAPI {
         public static final String USER_ID = "idUser";
@@ -187,6 +202,10 @@ public class Constants {
                 "cảnh đẹp"};
     }
 
+    public static final String[] LIST_NAME_STORE = {"Cột mốc", "Cửa hàng ăn uống", "Cửa hàng " +
+        "quần áo", "Cửa hàng sách", "Cửa hàng mỹ phẩm", "Rạp chiếu phim", "Trung tâm giải trí",
+        "Cửa hàng điện thoại"};
+
     public static class Instruction {
         public static final String SHOWCASE_ID_BOOK_TABLE = "BOOK TABLE";
         public static final String SHOWCASE_ID_DETAILS_SHOP = "DETAILS SHOP";
@@ -204,12 +223,12 @@ public class Constants {
         public static final String FORMAT_DATE = "yyyy-MM-dd";
     }
 
-    public static class Notification{
-        public static final String START_EVENT="start_event";
-        public static final String FINISH_EVENT="finish_event";
-        public static final String CONTENT_EVENT="content";
-        public static final String STORE_ID_EVENT="store_id";
-        public static final int  REQUEST_CODE_EVENT=1;
-        public static final int  ID_NOTIFICATION=2;
+    public static class Notification {
+        public static final String START_EVENT = "start_event";
+        public static final String FINISH_EVENT = "finish_event";
+        public static final String CONTENT_EVENT = "content";
+        public static final String STORE_ID_EVENT = "store_id";
+        public static final int REQUEST_CODE_EVENT = 1;
+        public static final int ID_NOTIFICATION = 2;
     }
 }

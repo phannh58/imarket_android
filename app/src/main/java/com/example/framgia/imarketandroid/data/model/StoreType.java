@@ -8,20 +8,20 @@ import io.realm.RealmObject;
 /**
  * Created by framgia on 03/10/2016.
  */
-public class StoreType {
+public class StoreType extends RealmObject {
     @SerializedName("id")
     private int mId;
     @SerializedName("name")
     private String mName;
     @SerializedName("avatar")
-    private String mAvatar;
+    private int mAvatar;
     @SerializedName("id_commerce")
     private int mCommerceId;
 
     public StoreType() {
     }
 
-    public StoreType(int id, String name, String avatar, int commerceId) {
+    public StoreType(int id, String name, int avatar, int commerceId) {
         this.mId = id;
         this.mName = name;
         this.mAvatar = avatar;
@@ -44,11 +44,11 @@ public class StoreType {
         this.mName = mName;
     }
 
-    public String getAvatar() {
+    public int getAvatar() {
         return mAvatar;
     }
 
-    public void setAvatar(String mAvatar) {
+    public void setAvatar(int mAvatar) {
         this.mAvatar = mAvatar;
     }
 
