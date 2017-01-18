@@ -662,7 +662,6 @@ public class ChooseMarketActivity extends AppCompatActivity implements
         switch (result) {
             case Constants.ResultFinishLoadData.LOAD_DATA_FINISH:
                 synChronizeData();
-                mDataUtils.getEvents(this, mIdStore, sEventList);
                 break;
             case Constants.ResultFinishLoadData.LOAD_EVENT_FINISH:
                 pushNotification();
