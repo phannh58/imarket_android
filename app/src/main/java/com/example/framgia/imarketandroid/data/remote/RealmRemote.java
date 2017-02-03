@@ -32,12 +32,12 @@ public class RealmRemote {
     private static final int SCHEMA_VERSION = 3;
 
     public static void openDatabaseRealm(Context context, InputStream inputStream, String
-        outFileName) {
+            outFileName) {
         copyBundledRealmFile(context, inputStream, outFileName);
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(context)
-            .name(outFileName)
-            .schemaVersion(SCHEMA_VERSION)
-            .build();
+                .name(outFileName)
+                .schemaVersion(SCHEMA_VERSION)
+                .build();
         try {
             Realm.migrateRealm(realmConfiguration, new Migration());
         } catch (FileNotFoundException e) {
@@ -123,8 +123,8 @@ public class RealmRemote {
         return point;
     }
 
-    public static List<Category> getListCategory() {
-        List<Category> categories = mRealm.where(Category.class).findAll();
+    public static List<Category> getListCategory(int storeId) {
+        List<Category> categories = mRealm.where(Category.class).equalTo(Constants.Store.STORE_ID, storeId).findAll();
         return categories;
     }
 
@@ -133,7 +133,7 @@ public class RealmRemote {
             @Override
             public void execute(Realm realm) {
                 RealmResults<Point> results =
-                    mRealm.where(Point.class).equalTo(Constants.FIELD_NAME, name).findAll();
+                        mRealm.where(Point.class).equalTo(Constants.FIELD_NAME, name).findAll();
                 results.deleteAllFromRealm();
             }
         });
@@ -144,8 +144,8 @@ public class RealmRemote {
             @Override
             public void execute(Realm realm) {
                 RealmResults<Edge> results =
-                    mRealm.where(Edge.class).equalTo(Constants.NAME_START, name_start).equalTo
-                        (Constants.NAME_END, name_end).findAll();
+                        mRealm.where(Edge.class).equalTo(Constants.NAME_START, name_start).equalTo
+                                (Constants.NAME_END, name_end).findAll();
                 results.deleteAllFromRealm();
             }
         });
@@ -183,12 +183,12 @@ public class RealmRemote {
 
     public static CustomMarker createCustomMarkerFromPoint(Point point) {
         CustomMarker result = new CustomMarker(0, point.getLat(), point.getLng(),
-            Constants.DEMO_NUMBER, point.getType(), point.getId() + "");
+                Constants.DEMO_NUMBER, point.getType(), point.getId() + "");
         return result;
     }
 
     private static String copyBundledRealmFile(Context context, InputStream inputStream, String
-        outFileName) {
+            outFileName) {
         try {
             File file = new File(context.getFilesDir(), outFileName);
             FileOutputStream outputStream = new FileOutputStream(file);

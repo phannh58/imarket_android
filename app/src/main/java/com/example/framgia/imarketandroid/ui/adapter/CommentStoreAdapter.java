@@ -52,8 +52,9 @@ public class CommentStoreAdapter extends RecyclerView.Adapter<CommentStoreAdapte
         holder.mImageViewAvatarItemMessageRate
                 .setImageResource(messageSuggestStore.getImageViewAvatar());
         holder.mTextViewContentMessage.setText(messageSuggestStore.getTextViewContent());
-        SystemUtil.makeTextViewResizable(mContext, holder.mTextViewContentMessage,
-                Constants.MAX_LINE_SPAN_TEXT, mContext.getResources().getString(R.string.view_more), true);
+        //TODO :fix view more bug
+//        SystemUtil.makeTextViewResizable(mContext, holder.mTextViewContentMessage,
+//                Constants.MAX_LINE_SPAN_TEXT, mContext.getResources().getString(R.string.view_more), true);
         holder.mTextViewTitleMessage.setText(messageSuggestStore.getTextViewTitle());
         holder.mTextViewNameUser.setText(messageSuggestStore.getNameUser());
         holder.mTextViewCurDate.setText(SystemUtil.formatTimeNow(mContext,
