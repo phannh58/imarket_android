@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,19 +19,18 @@ import com.example.framgia.imarketandroid.ui.activity.ListProductsActivity;
 import com.example.framgia.imarketandroid.ui.adapter.CategoryStallAdapter;
 import com.example.framgia.imarketandroid.ui.widget.GridItemDecoration;
 import com.example.framgia.imarketandroid.util.Constants;
-import com.example.framgia.imarketandroid.util.Flog;
 import com.example.framgia.imarketandroid.util.HttpRequest;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryStallFragment extends Fragment implements
-    HttpRequest.OnLoadDataListener, OnRecyclerItemInteractListener {
+        HttpRequest.OnLoadDataListener, OnRecyclerItemInteractListener {
     public static CategoryStallAdapter sCategoryStallAdapter;
     public static List<Category> sCategoryProducts;
     private RecyclerView mRecyclerView;
     private View mView;
-    private int mStoreId = 1;
+    public static int sStoreId = 1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
@@ -54,8 +52,7 @@ public class CategoryStallFragment extends Fragment implements
     public void init() {
         sCategoryProducts = new ArrayList<>();
         sCategoryStallAdapter = new CategoryStallAdapter(sCategoryProducts, getActivity());
-        addItem(sCategoryProducts, RealmRemote.getListCategory());
-        sCategoryStallAdapter.addAll(RealmRemote.getListCategory());
+        sCategoryStallAdapter.addAll(RealmRemote.getListCategory(sStoreId));
         mRecyclerView.setAdapter(sCategoryStallAdapter);
         sCategoryStallAdapter.setOnRecyclerItemInteractListener(this);
         mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
@@ -64,14 +61,10 @@ public class CategoryStallFragment extends Fragment implements
     }
 
     public void getData() {
-        Bundle bundle = getArguments();
-        if (bundle == null) {
-            HttpRequest.getInstance(getActivity().getBaseContext()).init();
-            HttpRequest.getInstance(getActivity().getBaseContext())
-                .initProgressDialog(getActivity());
-            HttpRequest.getInstance(getActivity().getBaseContext()).loadCategories(mStoreId);
-            HttpRequest.getInstance(getActivity().getBaseContext()).setOnLoadDataListener(this);
-        }
+        HttpRequest.getInstance(getActivity().getBaseContext()).init();
+        HttpRequest.getInstance(getActivity().getBaseContext()).initProgressDialog(getActivity());
+        HttpRequest.getInstance(getActivity().getBaseContext()).loadCategories(sStoreId);
+        HttpRequest.getInstance(getActivity().getBaseContext()).setOnLoadDataListener(this);
     }
 
     private void addItem(List<Category> mainList, List<Category> subList) {
@@ -90,7 +83,7 @@ public class CategoryStallFragment extends Fragment implements
 
     @Override
     public void onLoadDataFailure(String message) {
-        List<Category> categories = RealmRemote.getListCategory();
+        List<Category> categories = RealmRemote.getListCategory(sStoreId);
         if (categories != null && categories.size() != 0) {
             sCategoryStallAdapter.addAll(categories);
         }

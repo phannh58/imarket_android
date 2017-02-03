@@ -43,7 +43,7 @@ import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
  * Created by toannguyen201194 on 06/09/2016.
  */
 public class HomeStoreActivity extends AppCompatActivity implements SearchView
-    .OnQueryTextListener, View.OnClickListener, NoConnectFragment.OnClickToLoadConnect {
+        .OnQueryTextListener, View.OnClickListener, NoConnectFragment.OnClickToLoadConnect {
     private final String NAMESTORE = "Apple Store";
     private TabLayout mTabLayout;
     private ViewPager mViewPagerStore;
@@ -91,33 +91,33 @@ public class HomeStoreActivity extends AppCompatActivity implements SearchView
             // kiểm tra mạng
             // có mạng thì add các Fragment
             mPagerAdapter.addFragment(new CategoryStallFragment(),
-                getString(R.string.title_fragment_Category));
+                    getString(R.string.title_fragment_Category));
             mPagerAdapter.addFragment(new SaleOffEventFragment(mEvents, mCallback),
-                getString(R.string.title_fragment_saleoffevent));
+                    getString(R.string.title_fragment_saleoffevent));
             mSuggestStoreFragment = new SuggestStoreFragment();
             mPagerAdapter
-                .addFragment(mSuggestStoreFragment, getString(R.string.title_fragment_rate));
+                    .addFragment(mSuggestStoreFragment, getString(R.string.title_fragment_rate));
             mShopDetailInterfaceFragment = new ShopDetailInterfaceFragment(mCallback);
             mPagerAdapter.addFragment(mShopDetailInterfaceFragment,
-                getString(R.string.title_fragment_informationstore));
+                    getString(R.string.title_fragment_informationstore));
             viewPager.setAdapter(mPagerAdapter);
         } else {
             // không có mạng
             // kiểm tra dữ liệu cache trước đó
-            if (RealmRemote.getListCategory().size() > 0) {
+            if (RealmRemote.getListCategory(CategoryStallFragment.sStoreId).size() > 0) {
                 mPagerAdapter.addFragment(new CategoryStallFragment(),
-                    getString(R.string.title_fragment_Category));
+                        getString(R.string.title_fragment_Category));
             } else {
                 mPagerAdapter.addFragment(new NoConnectFragment(HomeStoreActivity.this),
-                    getString(R.string.title_fragment_Category));
+                        getString(R.string.title_fragment_Category));
             }
             Flog.toast(this, R.string.no_internet);
             mPagerAdapter.addFragment(new NoConnectFragment(HomeStoreActivity.this),
-                getString(R.string.title_fragment_saleoffevent));
+                    getString(R.string.title_fragment_saleoffevent));
             mPagerAdapter.addFragment(new NoConnectFragment(HomeStoreActivity.this),
-                getString(R.string.title_fragment_rate));
+                    getString(R.string.title_fragment_rate));
             mPagerAdapter.addFragment(new NoConnectFragment(HomeStoreActivity.this),
-                getString(R.string.title_fragment_informationstore));
+                    getString(R.string.title_fragment_informationstore));
             viewPager.setAdapter(mPagerAdapter);
         }
     }
@@ -137,15 +137,15 @@ public class HomeStoreActivity extends AppCompatActivity implements SearchView
                 ShowcaseConfig config = new ShowcaseConfig();
                 config.setDelay(Constants.TIME_DELAY_GUIDE);
                 MaterialShowcaseSequence sequence = new MaterialShowcaseSequence
-                    (HomeStoreActivity.this,
-                        Constants.Instruction.SHOWCASE_ID_HOME);
+                        (HomeStoreActivity.this,
+                                Constants.Instruction.SHOWCASE_ID_HOME);
                 sequence.setConfig(config);
                 sequence.addSequenceItem(searchView,
-                    getString(R.string.sequence_search),
-                    Constants.Instruction.GOT_IT);
+                        getString(R.string.sequence_search),
+                        Constants.Instruction.GOT_IT);
                 sequence.addSequenceItem(cartView,
-                    getString(R.string.sequence_cart),
-                    Constants.Instruction.GOT_IT);
+                        getString(R.string.sequence_cart),
+                        Constants.Instruction.GOT_IT);
                 sequence.start();
             }
         });

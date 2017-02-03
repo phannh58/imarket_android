@@ -1,11 +1,6 @@
 package com.example.framgia.imarketandroid.util;
 
 import com.example.framgia.imarketandroid.R;
-import com.example.framgia.imarketandroid.data.model.CommerceCanter;
-import com.google.common.io.Resources;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by VULAN on 7/19/2016.
@@ -134,7 +129,7 @@ public class Constants {
     }
 
     public static final String[] LIST_NAME_SUGGEST = {"ăn ngon", "để xe", "đợi người", "xem phim",
-        "cảnh đẹp"};
+            "cảnh đẹp"};
 
     public class ResultFinishLoadData {
         public static final int LOAD_DATA_FINISH = 1;
@@ -144,16 +139,16 @@ public class Constants {
     }
 
     public static final int[] LIST_AVATAR_STORE =
-        {R.drawable.curret_location_icon, R.drawable.food_avatar, R.drawable.fashion, R
-            .drawable.book_shop, R.drawable.cosmetic,
-            R.drawable.stage, R.drawable.game_icon, R
-            .drawable.smartphone};
+            {R.drawable.curret_location_icon, R.drawable.food_avatar, R.drawable.fashion, R
+                    .drawable.book_shop, R.drawable.cosmetic,
+                    R.drawable.stage, R.drawable.game_icon, R
+                    .drawable.smartphone};
     public static final int[] LIST_CURRENT_AVATAR_STORE =
-        {R.drawable.curret_location_icon, R.drawable.current_restaurent, R.drawable
-            .current_fashion, R.drawable.current_book_shop, R.drawable
-            .current_cosmetic,
-            R.drawable.current_stage, R.drawable.current_game_icon, R
-            .drawable.current_smartphone};
+            {R.drawable.curret_location_icon, R.drawable.current_restaurent, R.drawable
+                    .current_fashion, R.drawable.current_book_shop, R.drawable
+                    .current_cosmetic,
+                    R.drawable.current_stage, R.drawable.current_game_icon, R
+                    .drawable.current_smartphone};
 
     public class ParamAPI {
         public static final String USER_ID = "idUser";
@@ -174,7 +169,7 @@ public class Constants {
         public static final String GET_COMMERCE_CENTERS_PATH = "commerce_centers";
         public static final String GET_FLOORS_PATH = "commerce_centers/{commerceCenterId}/floors";
         public static final String GET_STORE_TYPE_PATH =
-            "commerce_centers/{commerceCenterId}/store_types";
+                "commerce_centers/{commerceCenterId}/store_types";
         public static final String PARAM_FLOORS = "floors";
         public static final String GET_PRODUCTS_PATH = "categories/{idCategory}/products";
         public static final String GET_EVENTS_PATH = "stores/{storeId}/events";
@@ -184,27 +179,27 @@ public class Constants {
 
     public static class DataList {
         public static final int[] LIST_AVATAR_STORE =
-            {R.drawable.curret_location_icon, R.drawable.food_avatar, R.drawable.fashion, R
-                .drawable.book_shop, R.drawable.cosmetic,
-                R.drawable.stage, R.drawable.game_icon, R
-                .drawable.smartphone};
+                {R.drawable.curret_location_icon, R.drawable.food_avatar, R.drawable.fashion, R
+                        .drawable.book_shop, R.drawable.cosmetic,
+                        R.drawable.stage, R.drawable.game_icon, R
+                        .drawable.smartphone};
         public static final int[] LIST_CURRENT_AVATAR_STORE =
-            {R.drawable.curret_location_icon, R.drawable.current_restaurent, R.drawable
-                .current_fashion, R.drawable.current_book_shop, R.drawable
-                .current_cosmetic,
-                R.drawable.current_stage, R.drawable.current_game_icon, R
-                .drawable.current_smartphone};
+                {R.drawable.curret_location_icon, R.drawable.current_restaurent, R.drawable
+                        .current_fashion, R.drawable.current_book_shop, R.drawable
+                        .current_cosmetic,
+                        R.drawable.current_stage, R.drawable.current_game_icon, R
+                        .drawable.current_smartphone};
         public static final String[] LIST_NAME_STORE = {"Cột mốc", "Cửa hàng ăn uống", "Cửa hàng " +
-            "quần áo", "Cửa hàng sách", "Cửa hàng mỹ phẩm", "Rạp chiếu phim", "Trung tâm giải trí",
-            "Cửa hàng điện thoại"};
+                "quần áo", "Cửa hàng sách", "Cửa hàng mỹ phẩm", "Rạp chiếu phim", "Trung tâm giải trí",
+                "Cửa hàng điện thoại"};
         public static final String[] LIST_NAME_SUGGEST =
-            {"ăn ngon", "để xe", "đợi người", "xem phim",
-                "cảnh đẹp"};
+                {"ăn ngon", "để xe", "đợi người", "xem phim",
+                        "cảnh đẹp"};
     }
 
     public static final String[] LIST_NAME_STORE = {"Cột mốc", "Cửa hàng ăn uống", "Cửa hàng " +
-        "quần áo", "Cửa hàng sách", "Cửa hàng mỹ phẩm", "Rạp chiếu phim", "Trung tâm giải trí",
-        "Cửa hàng điện thoại"};
+            "quần áo", "Cửa hàng sách", "Cửa hàng mỹ phẩm", "Rạp chiếu phim", "Trung tâm giải trí",
+            "Cửa hàng điện thoại"};
 
     public static class Instruction {
         public static final String SHOWCASE_ID_BOOK_TABLE = "BOOK TABLE";
@@ -230,5 +225,10 @@ public class Constants {
         public static final String STORE_ID_EVENT = "store_id";
         public static final int REQUEST_CODE_EVENT = 1;
         public static final int ID_NOTIFICATION = 2;
+    }
+
+    public static class Store {
+        public static String KEY_STORE = "key store";
+        public static String STORE_ID = "mStoreId";
     }
 }
