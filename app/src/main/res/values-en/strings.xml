@@ -83,7 +83,7 @@
     <string name="continuee">Tiếp tục</string>
     <string name="fill_note">Fill not</string>
     <string name="current_location_title">Please enter the number of markers near you</string>
-    <string name="bic_C">Bic C Thăng Long</string>
+    <string name="bic_C">Name Store</string>
     <string name="hast_tag_bicc">#bigcthanglong</string>
     <string name="message_rate">Mình đã gắn bó với Lotte Cinema Land Mark Hà Nội từ hồi cấp 3.
         Tới nay đã được gần 5 năm rồi.
@@ -164,8 +164,8 @@
     <string name="price_product_fake">đ 100.000</string>
     <string name="save_point">Save your location</string>
 
-    <string name="info_shop">Information Product</string>
-    <string name="recruitment_introduction"><![CDATA[Giới thiệu & Tuyển dụng]]></string>
+    <string name="info_shop">Information Sh</string>
+    <string name="recruitment_introduction"><![CDATA[Introduction & Recruitment]]></string>
     <string name="intro_shop">Với hàng trăm nghìn sản phẩm thời trang nữ đang có mặt tại Sendo.vn,
         các bạn gái có thể thỏa sức mua sắm và tạo nên cho mình phong cách vô cùng cuốn hút.
         Sendo.vn với tiêu chí mua sắm trực tuyến đảm bảo sẽ là nơi mang đến cho nam giới những sản
@@ -184,8 +184,8 @@
     <string name="vote_text_shop">Vote : 4.5</string>
     <string name="branch_text">department</string>
     <string name="address_text">Hà Đông - Hà Nội</string>
-    <string name="address_shop">Adress</string>
-    <string name="phonenumbershop">Numberphone</string>
+    <string name="address_shop">Address</string>
+   <string name="phonenumbershop">Numberphone</string>
     <string name="website_shop">Website</string>
     <string name="text_web_fake">http://abc.com</string>
     <string name="facebook_shop">Facebook</string>
@@ -240,7 +240,7 @@
     <string name="vnd_uppercase">    VND</string>
     <string name="quantity_second">Number :</string>
     <string name="title_fragment_Category">Category</string>
-    <string name="title_fragment_saleoffevent">Chương Trình Khuyến Mãi</string>
+    <string name="title_fragment_saleoffevent">Promotions</string>
     <string name="title_fragment_rate">Rates -Comment</string>
     <string name="title_fragment_informationstore">Information Store</string>
     <string name="text_product_sale">\n Đang giảm giá tại đỉa chỉ Big C Thăng Long</string>
