@@ -48,7 +48,7 @@ public class CategoryStallAdapter
         Category categoryProduct = mCategoryProducts.get(position);
         holder.textView.setText(categoryProduct.getName());
         if (!mIsCached) {
-            Glide.with(mContext).load(categoryProduct.getImageLink()).into(holder.imageView);
+            Glide.with(mContext).load(categoryProduct.getImageLink()).centerCrop().into(holder.imageView);
         }
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override

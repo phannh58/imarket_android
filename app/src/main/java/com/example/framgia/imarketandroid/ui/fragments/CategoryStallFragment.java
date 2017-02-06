@@ -78,6 +78,11 @@ public class CategoryStallFragment extends Fragment implements
             sCategoryProducts = (List<Category>) object;
             RealmRemote.saveCategories(sCategoryProducts);
             sCategoryStallAdapter.addAll(sCategoryProducts);
+        } else {
+            Toast.makeText(getContext(),
+                    getActivity().getResources().getString(R.string.product_null),
+                    Toast.LENGTH_LONG)
+                    .show();
         }
     }
 

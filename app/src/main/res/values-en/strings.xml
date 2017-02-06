@@ -44,7 +44,7 @@
     <string name="favorite">Like</string>
     <string name="msg_login_invaild">Username or Password is not right</string>
     <string name="progressdialog">Authenticating...</string>
-    <string name="total">Count:</string>
+    <string name="total">Price :</string>
     <string name="soluong">Number:</string>
     <string name="muangay">Buy now</string>
     <string name="sanpham">Product:</string>
