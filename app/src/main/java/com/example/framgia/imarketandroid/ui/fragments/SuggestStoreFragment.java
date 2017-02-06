@@ -106,7 +106,6 @@ public class SuggestStoreFragment extends Fragment
     }
 
     private void setTexts() {
-        mTextViewNameStore.setText(FakeContainer.getNameProduct());
         mTextViewProportionVote.setText(FakeContainer.getGeneralRate());
         mTextViewCountVote.setText(FakeContainer.getAmountOfRates());
     }

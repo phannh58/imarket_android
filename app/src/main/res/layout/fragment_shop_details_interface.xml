@@ -41,29 +41,12 @@
                 android:background="@color/background_shop_hint">
 
                 <TextView
-                    android:id="@+id/text_count_heart"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/margin_80"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="@string/count_heart_shop"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/common_text_size_16"/>
-
-                <TextView
-                    android:layout_width="@dimen/width_height_1"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="@dimen/margin_10dp"
-                    android:layout_marginTop="@dimen/margin_10dp"
-                    android:background="@color/white"/>
-
-                <TextView
                     android:id="@+id/text_count_follow"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:gravity="center"
+                    android:layout_marginTop="@dimen/margin_10dp"
+                    android:layout_marginLeft="@dimen/margin_90"
                     android:text="@string/count_follow_shop"
                     android:textColor="@color/white"
                     android:textSize="@dimen/common_text_size_16"/>
@@ -142,7 +125,7 @@
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:layout_weight="2"
                             android:text="@string/branch_text"
                             android:textColor="@color/black"
                             android:textStyle="italic"/>
@@ -156,7 +139,7 @@
                             android:id="@+id/spinner_branch_shop"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="3"
+                            android:layout_weight="5"
                             android:background="@color/grey"
                             android:paddingLeft="@dimen/margin_10dp"
                             android:textColor="@color/black"/>
@@ -173,7 +156,7 @@
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:layout_weight="2"
                             android:text="@string/address_shop"
                             android:textColor="@color/black"
                             android:textStyle="italic"/>
@@ -188,7 +171,7 @@
                             android:id="@+id/text_address_shop"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="3"
+                            android:layout_weight="5"
                             android:paddingLeft="@dimen/margin_10dp"
                             android:text="@string/address_text"
                             android:textColor="@color/black"/>
@@ -205,7 +188,7 @@
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:layout_weight="2"
                             android:text="@string/phonenumbershop"
                             android:textColor="@color/black"
                             android:textStyle="italic"/>
@@ -219,7 +202,7 @@
                             android:id="@+id/text_phonenumber_shop"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="3"
+                            android:layout_weight="5"
                             android:paddingLeft="@dimen/margin_10dp"
                             android:text="@string/hint_number"
                             android:textColor="@color/black"/>
@@ -236,7 +219,7 @@
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:layout_weight="2"
                             android:text="@string/website_shop"
                             android:textColor="@color/black"
                             android:textStyle="italic"/>
@@ -250,7 +233,7 @@
                             android:id="@+id/text_website_shop"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="3"
+                            android:layout_weight="5"
                             android:paddingLeft="@dimen/margin_10dp"
                             android:text="@string/text_web_fake"
                             android:textColor="@color/black"/>
@@ -268,7 +251,7 @@
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:layout_weight="2"
                             android:text="@string/facebook_shop"
                             android:textColor="@color/black"
                             android:textStyle="italic"/>
@@ -282,7 +265,7 @@
                             android:id="@+id/text_facebook_shop"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="3"
+                            android:layout_weight="5"
                             android:paddingLeft="@dimen/margin_10dp"
                             android:text="@string/text_facebook_fake"
                             android:textColor="@color/black"/>

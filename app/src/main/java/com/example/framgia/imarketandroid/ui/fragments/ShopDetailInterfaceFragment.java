@@ -45,7 +45,7 @@ public class ShopDetailInterfaceFragment extends Fragment implements View.OnClic
     private RecyclerView mRecyclerViewAlbumShop;
     private Spinner mSpinnerBranchShop;
     private ShopDetailInterfaceAdapter mShopDetailInterfaceAdapter;
-    private List<AlbumShop> mAlbumShopList = new ArrayList<>();
+    private List<AlbumShop> mAlbumShopList =  new ArrayList<>();
     private View mRootView;
     private Button mButtonShare;
     private CallbackManager mCallback;
