@@ -910,12 +910,12 @@ public class FloorActivity extends AppCompatActivity implements AdapterView
                     case FakeContainer.STORE_TYPE_1:
                         mTextStoreName =
                                 Constants.LIST_NAME_STORE[1];
-                        sStoreId = FakeContainer.STORE_TYPE_1;
+                        sStoreId = FakeContainer.STORE_TYPE_7;
                         break;
                     case FakeContainer.STORE_TYPE_2:
                         mTextStoreName =
                                 Constants.LIST_NAME_STORE[2];
-                        sStoreId = FakeContainer.STORE_TYPE_2;
+                        sStoreId = FakeContainer.STORE_TYPE_5;
                         break;
                     case FakeContainer.STORE_TYPE_3:
                         mTextStoreName =
@@ -930,7 +930,7 @@ public class FloorActivity extends AppCompatActivity implements AdapterView
                     case FakeContainer.STORE_TYPE_5:
                         mTextStoreName =
                                 Constants.LIST_NAME_STORE[5];
-                        sStoreId = FakeContainer.STORE_TYPE_5;
+                        sStoreId = FakeContainer.STORE_TYPE_2;
                         break;
                     case FakeContainer.STORE_TYPE_6:
                         mTextStoreName =
@@ -940,7 +940,7 @@ public class FloorActivity extends AppCompatActivity implements AdapterView
                     case FakeContainer.STORE_TYPE_7:
                         mTextStoreName =
                                 Constants.LIST_NAME_STORE[7];
-                        sStoreId = FakeContainer.STORE_TYPE_7;
+                        sStoreId = FakeContainer.STORE_TYPE_1;
                         break;
                     case Constants.SAVE_POINT_TYPE:
                         LinearLayout layoutHire = (LinearLayout) v.findViewById(R.id.layout_hire);
